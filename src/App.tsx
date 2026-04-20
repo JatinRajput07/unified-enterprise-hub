@@ -11,7 +11,49 @@ import PlaceholderPage from "@/pages/PlaceholderPage";
 import NotFound from "./pages/NotFound.tsx";
 import { MODULES } from "@/lib/modules";
 
+// WayOfWork
+import WowDashboard from "@/pages/wayofwork/WowDashboard";
+import MyWows from "@/pages/wayofwork/MyWows";
+import CreateWow from "@/pages/wayofwork/CreateWow";
+import ReviewQueue from "@/pages/wayofwork/ReviewQueue";
+import AssignTraining from "@/pages/wayofwork/AssignTraining";
+import MyTraining from "@/pages/wayofwork/MyTraining";
+import WowLibrary from "@/pages/wayofwork/WowLibrary";
+import WowAutomations from "@/pages/wayofwork/WowAutomations";
+
+// Finance
+import FinanceDashboard from "@/pages/finance/FinanceDashboard";
+import Invoices from "@/pages/finance/Invoices";
+import Expenses from "@/pages/finance/Expenses";
+import Budget from "@/pages/finance/Budget";
+import PnL from "@/pages/finance/PnL";
+import FinanceReports from "@/pages/finance/Reports";
+import Approvals from "@/pages/finance/Approvals";
+import FinanceAutomations from "@/pages/finance/FinanceAutomations";
+
 const queryClient = new QueryClient();
+
+// Custom routes that override the auto-PlaceholderPage
+const CUSTOM_ROUTES: Record<string, React.ComponentType> = {
+  "/sales": SalesDashboard,
+  "/system-admin": SystemAdminDashboard,
+  "/wayofwork": WowDashboard,
+  "/wayofwork/my-wows": MyWows,
+  "/wayofwork/create": CreateWow,
+  "/wayofwork/review": ReviewQueue,
+  "/wayofwork/assign-training": AssignTraining,
+  "/wayofwork/training": MyTraining,
+  "/wayofwork/library": WowLibrary,
+  "/wayofwork/automations": WowAutomations,
+  "/finance": FinanceDashboard,
+  "/finance/invoices": Invoices,
+  "/finance/expenses": Expenses,
+  "/finance/budget": Budget,
+  "/finance/pl": PnL,
+  "/finance/reports": FinanceReports,
+  "/finance/approvals": Approvals,
+  "/finance/automations": FinanceAutomations,
+};
 
 const App = () => (
   <QueryClientProvider client={queryClient}>
@@ -24,25 +66,13 @@ const App = () => (
             <Route element={<CrmShell />}>
               <Route path="/" element={<Navigate to="/sales" replace />} />
 
-              {/* Sales — fully built */}
-              <Route path="/sales" element={<SalesDashboard />} />
-              {MODULES.find(m => m.key === "sales")!.submenu
-                .filter(s => s.path !== "/sales")
-                .map(s => <Route key={s.path} path={s.path} element={<PlaceholderPage />} />)}
-
-              {/* System Admin — fully built dashboard */}
-              <Route path="/system-admin" element={<SystemAdminDashboard />} />
-              {MODULES.find(m => m.key === "sysadmin")!.submenu
-                .filter(s => s.path !== "/system-admin")
-                .map(s => <Route key={s.path} path={s.path} element={<PlaceholderPage />} />)}
-
-              {/* Other modules — placeholders */}
-              {MODULES.filter(m => m.key !== "sales" && m.key !== "sysadmin").flatMap(m => [
-                <Route key={m.path} path={m.path} element={<PlaceholderPage />} />,
-                ...m.submenu.filter(s => s.path !== m.path).map(s => (
-                  <Route key={s.path} path={s.path} element={<PlaceholderPage />} />
-                )),
-              ])}
+              {MODULES.flatMap(m => {
+                const all = [{ label: m.name, path: m.path }, ...m.submenu.filter(s => s.path !== m.path)];
+                return all.map(s => {
+                  const Comp = CUSTOM_ROUTES[s.path] ?? PlaceholderPage;
+                  return <Route key={s.path} path={s.path} element={<Comp />} />;
+                });
+              })}
             </Route>
             <Route path="*" element={<NotFound />} />
           </Routes>
