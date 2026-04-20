@@ -1,155 +1,138 @@
-@import url('https://fonts.googleapis.com/css2?family=IBM+Plex+Sans:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500;700&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500;700&display=swap');
 
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
 
-/* Enterprise CRM design system. Dense, dark-first, HSL only. */
+/* Enterprise CRM — light, colorful, professional. HSL only. */
 
 @layer base {
   :root {
-    /* Light theme — clean professional */
-    --background: 220 20% 97%;
-    --foreground: 222 25% 12%;
+    /* Light theme — DEFAULT */
+    --background: 210 20% 98%;          /* #F8FAFC */
+    --foreground: 222 47% 11%;          /* #0F172A */
 
-    --surface: 0 0% 100%;
-    --surface-elevated: 220 20% 99%;
-    --surface-hover: 220 15% 94%;
+    --surface: 0 0% 100%;               /* #FFFFFF */
+    --surface-elevated: 210 40% 96%;    /* #F1F5F9 */
+    --surface-hover: 214 100% 97%;      /* #EFF6FF */
 
     --card: 0 0% 100%;
-    --card-foreground: 222 25% 12%;
+    --card-foreground: 222 47% 11%;
 
     --popover: 0 0% 100%;
-    --popover-foreground: 222 25% 12%;
+    --popover-foreground: 222 47% 11%;
 
-    --primary: 217 91% 55%;
+    --primary: 217 91% 60%;             /* #3B82F6 */
     --primary-foreground: 0 0% 100%;
 
-    --secondary: 220 15% 92%;
-    --secondary-foreground: 222 25% 12%;
+    --secondary: 210 40% 96%;
+    --secondary-foreground: 222 47% 11%;
 
-    --muted: 220 15% 94%;
-    --muted-foreground: 220 10% 42%;
+    --muted: 210 40% 96%;
+    --muted-foreground: 215 16% 47%;    /* #64748B */
 
-    --accent: 220 15% 92%;
-    --accent-foreground: 222 25% 12%;
+    --accent: 214 100% 97%;
+    --accent-foreground: 222 47% 11%;
 
-    --destructive: 0 84% 56%;
+    --destructive: 0 84% 60%;           /* #EF4444 */
     --destructive-foreground: 0 0% 100%;
 
-    --success: 142 71% 42%;
+    --success: 142 71% 45%;             /* #22C55E */
     --success-foreground: 0 0% 100%;
 
-    --warning: 38 92% 48%;
+    --warning: 38 92% 50%;              /* #F59E0B */
     --warning-foreground: 0 0% 100%;
 
-    --border: 220 15% 88%;
-    --input: 220 15% 88%;
-    --ring: 217 91% 55%;
+    --info: 217 91% 60%;
+    --info-foreground: 0 0% 100%;
 
-    --radius: 0.25rem;
+    --border: 214 32% 91%;              /* #E2E8F0 */
+    --input: 214 32% 91%;
+    --ring: 217 91% 60%;
 
-    /* Module accents */
-    --mod-wayofwork: 280 70% 60%;
-    --mod-finance: 189 94% 43%;
-    --mod-sysadmin: 0 0% 60%;
-    --mod-pms: 271 81% 56%;
-    --mod-mastersheet: 158 64% 42%;
-    --mod-sales: 217 91% 55%;
-    --mod-frd: 25 95% 53%;
-    --mod-portfolio: 339 82% 52%;
-    --mod-staffing: 173 80% 40%;
-    --mod-canteen: 38 92% 50%;
+    --radius: 0.5rem;
 
-    --sidebar-background: 220 20% 97%;
-    --sidebar-foreground: 222 25% 12%;
-    --sidebar-primary: 217 91% 55%;
+    /* Module accents — colorful */
+    --mod-wayofwork: 239 84% 67%;       /* #6366F1 indigo */
+    --mod-finance: 199 89% 48%;         /* #0EA5E9 sky */
+    --mod-sysadmin: 0 84% 60%;          /* #EF4444 red */
+    --mod-pms: 262 83% 58%;             /* #8B5CF6 violet */
+    --mod-mastersheet: 173 80% 40%;     /* #14B8A6 teal */
+    --mod-sales: 217 91% 60%;           /* #3B82F6 blue */
+    --mod-frd: 38 92% 50%;              /* #F59E0B amber */
+    --mod-portfolio: 330 81% 60%;       /* #EC4899 pink */
+    --mod-staffing: 160 84% 39%;        /* #10B981 emerald */
+    --mod-canteen: 24 95% 53%;          /* #F97316 orange */
+
+    --sidebar-background: 210 20% 98%;
+    --sidebar-foreground: 222 47% 11%;
+    --sidebar-primary: 217 91% 60%;
     --sidebar-primary-foreground: 0 0% 100%;
-    --sidebar-accent: 220 15% 92%;
-    --sidebar-accent-foreground: 222 25% 12%;
-    --sidebar-border: 220 15% 88%;
-    --sidebar-ring: 217 91% 55%;
+    --sidebar-accent: 214 100% 97%;
+    --sidebar-accent-foreground: 222 47% 11%;
+    --sidebar-border: 214 32% 91%;
+    --sidebar-ring: 217 91% 60%;
   }
 
   .dark {
-    /* Dark theme — Bloomberg-meets-Linear */
-    --background: 220 15% 6%;
+    --background: 222 47% 6%;
     --foreground: 210 20% 92%;
 
-    --surface: 220 15% 9%;
-    --surface-elevated: 220 14% 12%;
-    --surface-hover: 220 13% 15%;
+    --surface: 222 47% 9%;
+    --surface-elevated: 222 40% 12%;
+    --surface-hover: 222 40% 15%;
 
-    --card: 220 15% 9%;
+    --card: 222 47% 9%;
     --card-foreground: 210 20% 92%;
 
-    --popover: 220 14% 12%;
+    --popover: 222 40% 12%;
     --popover-foreground: 210 20% 92%;
 
     --primary: 217 91% 60%;
-    --primary-foreground: 220 15% 6%;
+    --primary-foreground: 222 47% 6%;
 
-    --secondary: 220 13% 15%;
+    --secondary: 222 40% 15%;
     --secondary-foreground: 210 20% 92%;
 
-    --muted: 220 13% 15%;
-    --muted-foreground: 218 11% 58%;
+    --muted: 222 40% 15%;
+    --muted-foreground: 218 11% 65%;
 
-    --accent: 220 13% 15%;
+    --accent: 222 40% 15%;
     --accent-foreground: 210 20% 92%;
 
     --destructive: 0 72% 55%;
     --destructive-foreground: 0 0% 100%;
 
     --success: 142 71% 45%;
-    --success-foreground: 0 0% 100%;
-
     --warning: 38 92% 52%;
-    --warning-foreground: 220 15% 6%;
 
-    --border: 220 13% 18%;
-    --input: 220 13% 18%;
+    --border: 222 30% 18%;
+    --input: 222 30% 18%;
     --ring: 217 91% 60%;
 
-    --mod-wayofwork: 280 70% 65%;
-    --mod-finance: 189 94% 50%;
-    --mod-sysadmin: 0 0% 70%;
-    --mod-pms: 271 81% 65%;
-    --mod-mastersheet: 158 64% 50%;
-    --mod-sales: 217 91% 60%;
-    --mod-frd: 25 95% 58%;
-    --mod-portfolio: 339 82% 60%;
-    --mod-staffing: 173 80% 48%;
-    --mod-canteen: 38 92% 55%;
-
-    --sidebar-background: 220 15% 7%;
+    --sidebar-background: 222 47% 7%;
     --sidebar-foreground: 210 20% 92%;
     --sidebar-primary: 217 91% 60%;
-    --sidebar-primary-foreground: 220 15% 6%;
-    --sidebar-accent: 220 13% 15%;
+    --sidebar-primary-foreground: 222 47% 6%;
+    --sidebar-accent: 222 40% 15%;
     --sidebar-accent-foreground: 210 20% 92%;
-    --sidebar-border: 220 13% 18%;
+    --sidebar-border: 222 30% 18%;
     --sidebar-ring: 217 91% 60%;
   }
 }
 
 @layer base {
-  * {
-    @apply border-border;
-  }
+  * { @apply border-border; }
 
-  html, body, #root {
-    height: 100%;
-  }
+  html, body, #root { height: 100%; }
 
   body {
     @apply bg-background text-foreground antialiased;
-    font-family: 'IBM Plex Sans', system-ui, sans-serif;
+    font-family: 'Inter', system-ui, sans-serif;
     font-size: 13px;
     font-feature-settings: "cv11", "ss01";
   }
 
-  /* Tighter scrollbars for density */
   ::-webkit-scrollbar { width: 8px; height: 8px; }
   ::-webkit-scrollbar-track { background: transparent; }
   ::-webkit-scrollbar-thumb { background: hsl(var(--border)); border-radius: 4px; }
@@ -158,7 +141,7 @@
 
 @layer utilities {
   .font-mono { font-family: 'JetBrains Mono', ui-monospace, monospace; }
-  .font-display { font-family: 'IBM Plex Sans', system-ui, sans-serif; }
+  .font-display { font-family: 'Inter', system-ui, sans-serif; }
 
   .text-2xs { font-size: 10px; line-height: 14px; }
   .text-3xs { font-size: 9px; line-height: 12px; }
@@ -169,6 +152,9 @@
 
   .text-success { color: hsl(var(--success)); }
   .text-warning { color: hsl(var(--warning)); }
+  .text-info { color: hsl(var(--info)); }
   .bg-success { background-color: hsl(var(--success)); }
   .bg-warning { background-color: hsl(var(--warning)); }
+
+  .table-striped tbody tr:nth-child(even) { background-color: hsl(var(--surface-elevated) / 0.5); }
 }
