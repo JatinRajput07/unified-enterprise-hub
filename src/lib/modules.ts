@@ -14,7 +14,7 @@ export interface ModuleDef {
   short: string;
   icon: LucideIcon;
   path: string;
-  colorVar: string; // hsl var name
+  colorVar: string;
   submenu: { label: string; path: string }[];
 }
 
@@ -24,9 +24,13 @@ export const MODULES: ModuleDef[] = [
     path: "/wayofwork", colorVar: "--mod-wayofwork",
     submenu: [
       { label: "Dashboard", path: "/wayofwork" },
-      { label: "SOPs", path: "/wayofwork/sops" },
-      { label: "Workflows", path: "/wayofwork/workflows" },
-      { label: "Templates", path: "/wayofwork/templates" },
+      { label: "My WoWs", path: "/wayofwork/my-wows" },
+      { label: "Create WoW", path: "/wayofwork/create" },
+      { label: "Review Queue", path: "/wayofwork/review" },
+      { label: "Assign Training", path: "/wayofwork/assign-training" },
+      { label: "My Training", path: "/wayofwork/training" },
+      { label: "WoW Library", path: "/wayofwork/library" },
+      { label: "Automations", path: "/wayofwork/automations" },
     ],
   },
   {
@@ -35,10 +39,12 @@ export const MODULES: ModuleDef[] = [
     submenu: [
       { label: "Dashboard", path: "/finance" },
       { label: "Invoices", path: "/finance/invoices" },
-      { label: "P&L", path: "/finance/pnl" },
-      { label: "Budgets", path: "/finance/budgets" },
       { label: "Expenses", path: "/finance/expenses" },
+      { label: "Budget", path: "/finance/budget" },
+      { label: "P&L", path: "/finance/pl" },
       { label: "Reports", path: "/finance/reports" },
+      { label: "Approvals", path: "/finance/approvals" },
+      { label: "Automations", path: "/finance/automations" },
     ],
   },
   {
@@ -59,8 +65,11 @@ export const MODULES: ModuleDef[] = [
     submenu: [
       { label: "Dashboard", path: "/pms" },
       { label: "Projects", path: "/pms/projects" },
-      { label: "Tasks", path: "/pms/tasks" },
-      { label: "Timeline", path: "/pms/timeline" },
+      { label: "My Tasks", path: "/pms/tasks" },
+      { label: "Timesheets", path: "/pms/timesheets" },
+      { label: "Resources", path: "/pms/resources" },
+      { label: "Reports", path: "/pms/reports" },
+      { label: "Automations", path: "/pms/automations" },
     ],
   },
   {
@@ -68,8 +77,9 @@ export const MODULES: ModuleDef[] = [
     path: "/master-sheet", colorVar: "--mod-mastersheet",
     submenu: [
       { label: "Dashboard", path: "/master-sheet" },
-      { label: "Records", path: "/master-sheet/records" },
-      { label: "Schemas", path: "/master-sheet/schemas" },
+      { label: "Projects", path: "/master-sheet/projects" },
+      { label: "Change Requests", path: "/master-sheet/changes" },
+      { label: "Analytics", path: "/master-sheet/analytics" },
     ],
   },
   {
@@ -92,8 +102,11 @@ export const MODULES: ModuleDef[] = [
     path: "/frd", colorVar: "--mod-frd",
     submenu: [
       { label: "Dashboard", path: "/frd" },
-      { label: "Documents", path: "/frd/documents" },
-      { label: "Reviews", path: "/frd/reviews" },
+      { label: "All FRDs", path: "/frd/documents" },
+      { label: "Create FRD", path: "/frd/create" },
+      { label: "Review Queue", path: "/frd/review" },
+      { label: "Archived", path: "/frd/archived" },
+      { label: "Automations", path: "/frd/automations" },
     ],
   },
   {
@@ -103,6 +116,8 @@ export const MODULES: ModuleDef[] = [
       { label: "Dashboard", path: "/portfolio" },
       { label: "Clients", path: "/portfolio/clients" },
       { label: "Projects", path: "/portfolio/projects" },
+      { label: "Health", path: "/portfolio/health" },
+      { label: "Automations", path: "/portfolio/automations" },
     ],
   },
   {
@@ -110,9 +125,13 @@ export const MODULES: ModuleDef[] = [
     path: "/staffing", colorVar: "--mod-staffing",
     submenu: [
       { label: "Dashboard", path: "/staffing" },
+      { label: "Employees", path: "/staffing/employees" },
+      { label: "Jobs", path: "/staffing/jobs" },
       { label: "Candidates", path: "/staffing/candidates" },
-      { label: "Positions", path: "/staffing/positions" },
+      { label: "Interviews", path: "/staffing/interviews" },
+      { label: "Headcount", path: "/staffing/headcount" },
       { label: "Allocations", path: "/staffing/allocations" },
+      { label: "Automations", path: "/staffing/automations" },
     ],
   },
   {
@@ -123,11 +142,15 @@ export const MODULES: ModuleDef[] = [
       { label: "Menu", path: "/canteen/menu" },
       { label: "Orders", path: "/canteen/orders" },
       { label: "Inventory", path: "/canteen/inventory" },
+      { label: "Feedback", path: "/canteen/feedback" },
+      { label: "Reports", path: "/canteen/reports" },
+      { label: "Automations", path: "/canteen/automations" },
     ],
   },
 ];
 
 export const getModuleByPath = (pathname: string): ModuleDef => {
-  const match = MODULES.find(m => pathname.startsWith(m.path));
+  const sorted = [...MODULES].sort((a, b) => b.path.length - a.path.length);
+  const match = sorted.find(m => pathname.startsWith(m.path));
   return match ?? MODULES.find(m => m.key === "sales")!;
 };
