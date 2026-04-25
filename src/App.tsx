@@ -31,6 +31,14 @@ import FinanceReports from "@/pages/finance/Reports";
 import Approvals from "@/pages/finance/Approvals";
 import FinanceAutomations from "@/pages/finance/FinanceAutomations";
 
+// Sales
+import Leads from "@/pages/sales/Leads";
+import LeadNew from "@/pages/sales/LeadNew";
+import LeadDetail from "@/pages/sales/LeadDetail";
+import Sources from "@/pages/sales/Sources";
+import SourceNew from "@/pages/sales/SourceNew";
+import SourceDetail from "@/pages/sales/SourceDetail";
+
 const queryClient = new QueryClient();
 
 // Custom routes that override the auto-PlaceholderPage
@@ -53,6 +61,8 @@ const CUSTOM_ROUTES: Record<string, React.ComponentType> = {
   "/finance/reports": FinanceReports,
   "/finance/approvals": Approvals,
   "/finance/automations": FinanceAutomations,
+  "/sales/leads": Leads,
+  "/sales/sources": Sources,
 };
 
 const App = () => (
@@ -73,6 +83,12 @@ const App = () => (
                   return <Route key={s.path} path={s.path} element={<Comp />} />;
                 });
               })}
+
+              {/* Sales detail/new routes (not in submenu) */}
+              <Route path="/sales/leads/new" element={<LeadNew />} />
+              <Route path="/sales/leads/:id" element={<LeadDetail />} />
+              <Route path="/sales/sources/new" element={<SourceNew />} />
+              <Route path="/sales/sources/:id" element={<SourceDetail />} />
             </Route>
             <Route path="*" element={<NotFound />} />
           </Routes>
