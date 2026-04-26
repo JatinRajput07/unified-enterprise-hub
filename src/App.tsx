@@ -38,6 +38,16 @@ import LeadDetail from "@/pages/sales/LeadDetail";
 import Sources from "@/pages/sales/Sources";
 import SourceNew from "@/pages/sales/SourceNew";
 import SourceDetail from "@/pages/sales/SourceDetail";
+import Pipeline from "@/pages/sales/Pipeline";
+import Deals from "@/pages/sales/Deals";
+import DealNew from "@/pages/sales/DealNew";
+import DealDetail from "@/pages/sales/DealDetail";
+import Contacts from "@/pages/sales/Contacts";
+import Companies from "@/pages/sales/Companies";
+import Activities from "@/pages/sales/Activities";
+import Forecasts from "@/pages/sales/Forecasts";
+import SalesReports from "@/pages/sales/Reports";
+import SalesSettings from "@/pages/sales/Settings";
 
 const queryClient = new QueryClient();
 
@@ -63,6 +73,14 @@ const CUSTOM_ROUTES: Record<string, React.ComponentType> = {
   "/finance/automations": FinanceAutomations,
   "/sales/leads": Leads,
   "/sales/sources": Sources,
+  "/sales/pipeline": Pipeline,
+  "/sales/deals": Deals,
+  "/sales/contacts": Contacts,
+  "/sales/companies": Companies,
+  "/sales/activities": Activities,
+  "/sales/forecasts": Forecasts,
+  "/sales/reports": SalesReports,
+  "/sales/settings": SalesSettings,
 };
 
 const App = () => (
@@ -89,6 +107,8 @@ const App = () => (
               <Route path="/sales/leads/:id" element={<LeadDetail />} />
               <Route path="/sales/sources/new" element={<SourceNew />} />
               <Route path="/sales/sources/:id" element={<SourceDetail />} />
+              <Route path="/sales/deals/new" element={<DealNew />} />
+              <Route path="/sales/deals/:id" element={<DealDetail />} />
             </Route>
             <Route path="*" element={<NotFound />} />
           </Routes>
