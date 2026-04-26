@@ -106,6 +106,68 @@ export interface SalesTask {
   status: "Open" | "In Progress" | "Done";
 }
 
+// ─── Deals / Contacts / Companies / Proposals ───────────────────────
+export type DealStage = "Discovery" | "Qualification" | "Proposal" | "Negotiation" | "Contract" | "Won" | "Lost";
+export const ALL_DEAL_STAGES: DealStage[] = ["Discovery","Qualification","Proposal","Negotiation","Contract","Won","Lost"];
+
+export interface Deal {
+  id: string;
+  name: string;
+  leadId?: string;
+  companyId?: string;
+  contactId?: string;
+  ownerId: string;
+  value: number;
+  currency: Currency;
+  stage: DealStage;
+  probability: number;
+  expectedCloseDate: string;
+  source: SourcePlatform;
+  notes?: string;
+  createdAt: string;
+}
+
+export interface Contact {
+  id: string;
+  firstName: string;
+  lastName: string;
+  email: string;
+  phone?: string;
+  designation?: string;
+  companyId?: string;
+  ownerId: string;
+  linkedin?: string;
+  tags: string[];
+  createdAt: string;
+}
+
+export interface Company {
+  id: string;
+  name: string;
+  website?: string;
+  industry: string;
+  size: string;
+  country: string;
+  ownerId: string;
+  arr?: number;
+  status: "Prospect" | "Customer" | "Churned";
+  tags: string[];
+  createdAt: string;
+}
+
+export interface Proposal {
+  id: string;
+  title: string;
+  dealId?: string;
+  leadId?: string;
+  amount: number;
+  currency: Currency;
+  status: "Draft" | "Sent" | "Viewed" | "Accepted" | "Rejected";
+  validTill: string;
+  ownerId: string;
+  createdAt: string;
+}
+
 // ─── Seed ───────────────────────────────────────────────────────────
 const seedSources: SourceAccount[] = [
   { id: "s1", platform: "Upwork", url: "https://www.upwork.com/freelancers/bhavya_dev", username: "bhavya_dev", displayName: "Bhavya_Dev ($23/hr)", ownerId: "p5", rateType: "Hourly", rateAmount: 23, currency: "USD", status: "Active", jss: 92, rating: 4.9, tags: ["high-performing", "dev-focused"], createdAt: daysFromNow(-180) },
@@ -203,11 +265,83 @@ const seedTasks: SalesTask[] = [
   { id: "st3", leadId: "l2", title: "Draft initial proposal", type: "Proposal", assigneeId: "p10", dueDate: daysFromNow(3), priority: "High", status: "Open" },
 ];
 
+const DEAL_STAGES_SEED: DealStage[] = ["Discovery","Qualification","Proposal","Negotiation","Contract","Won","Lost"];
+const seedCompanies: Company[] = COMPANIES.slice(0, 12).map((name, i) => ({
+  id: `co${i + 1}`,
+  name,
+  website: `https://${name.toLowerCase().replace(/[^a-z]/g, "")}.com`,
+  industry: pick(["Technology","E-commerce","Healthcare","Finance","Education","Retail"], i),
+  size: pick(["11-50","51-200","201-1000","1000+"], i),
+  country: pick(["India","USA","UK","Singapore","UAE"], i),
+  ownerId: pick(["p2","p10","p5","p1"], i),
+  arr: (i + 1) * 350000 + 200000,
+  status: i % 5 === 0 ? "Customer" : i % 7 === 0 ? "Churned" : "Prospect",
+  tags: i % 2 === 0 ? ["enterprise"] : ["smb"],
+  createdAt: daysFromNow(-(i * 12 + 30)),
+}));
+
+const seedContacts: Contact[] = Array.from({ length: 18 }).map((_, i) => {
+  const fn = pick(FIRST, i);
+  const ln = pick(LAST, i + 2);
+  const co = seedCompanies[i % seedCompanies.length];
+  return {
+    id: `ct${i + 1}`,
+    firstName: fn,
+    lastName: ln,
+    email: `${fn.toLowerCase()}.${ln.toLowerCase()}@${co.name.toLowerCase().replace(/[^a-z]/g, "")}.com`,
+    phone: `+91 9${(800000000 + i * 7654321).toString().slice(0, 9)}`,
+    designation: pick(["CTO","VP Eng","Founder","Product Lead","Head of Sales","CEO"], i),
+    companyId: co.id,
+    ownerId: pick(["p2","p10","p5"], i),
+    linkedin: `https://linkedin.com/in/${fn.toLowerCase()}${ln.toLowerCase()}`,
+    tags: i % 3 === 0 ? ["champion"] : i % 3 === 1 ? ["decision-maker"] : ["influencer"],
+    createdAt: daysFromNow(-(i * 5 + 10)),
+  };
+});
+
+const seedDeals: Deal[] = Array.from({ length: 14 }).map((_, i) => {
+  const co = seedCompanies[i % seedCompanies.length];
+  const ct = seedContacts[i % seedContacts.length];
+  const stage = DEAL_STAGES_SEED[i % DEAL_STAGES_SEED.length];
+  const probMap: Record<DealStage, number> = { Discovery: 15, Qualification: 30, Proposal: 50, Negotiation: 70, Contract: 90, Won: 100, Lost: 0 };
+  return {
+    id: `d${i + 1}`,
+    name: `${co.name} – ${pick(TITLES, i)}`,
+    leadId: i < seedLeads.length ? seedLeads[i].id : undefined,
+    companyId: co.id,
+    contactId: ct.id,
+    ownerId: pick(["p2","p10","p5","p1"], i),
+    value: [180000, 320000, 540000, 780000, 1200000, 240000, 460000][i % 7],
+    currency: i % 4 === 0 ? "USD" : "INR",
+    stage,
+    probability: probMap[stage],
+    expectedCloseDate: daysFromNow((i % 6) * 7 + 5),
+    source: pick(["Upwork","LinkedIn","Referral","Website","Inbound" as any], i) as SourcePlatform,
+    createdAt: daysFromNow(-(i * 4 + 8)),
+  };
+});
+
+const seedProposals: Proposal[] = Array.from({ length: 6 }).map((_, i) => ({
+  id: `pr${i + 1}`,
+  title: `Proposal v${(i % 3) + 1} – ${seedDeals[i].name}`,
+  dealId: seedDeals[i].id,
+  amount: seedDeals[i].value,
+  currency: seedDeals[i].currency,
+  status: (["Draft","Sent","Viewed","Accepted","Rejected","Sent"] as const)[i],
+  validTill: daysFromNow(15 + i * 3),
+  ownerId: seedDeals[i].ownerId,
+  createdAt: daysFromNow(-(i * 3 + 1)),
+}));
+
 interface SalesState {
   sources: SourceAccount[];
   leads: Lead[];
   activities: Activity[];
   tasks: SalesTask[];
+  deals: Deal[];
+  contacts: Contact[];
+  companies: Company[];
+  proposals: Proposal[];
   addSource: (s: Omit<SourceAccount, "id" | "createdAt">) => string;
   updateSource: (id: string, patch: Partial<SourceAccount>) => void;
   addLead: (l: Omit<Lead, "id" | "createdAt" | "lastActivityAt" | "aiScore">) => string;
@@ -216,6 +350,12 @@ interface SalesState {
   logActivity: (a: Omit<Activity, "id">) => string;
   addTask: (t: Omit<SalesTask, "id">) => string;
   setTaskStatus: (id: string, status: SalesTask["status"]) => void;
+  addDeal: (d: Omit<Deal, "id" | "createdAt">) => string;
+  updateDeal: (id: string, patch: Partial<Deal>) => void;
+  setDealStage: (id: string, stage: DealStage) => void;
+  addContact: (c: Omit<Contact, "id" | "createdAt">) => string;
+  addCompany: (c: Omit<Company, "id" | "createdAt">) => string;
+  addProposal: (p: Omit<Proposal, "id" | "createdAt">) => string;
 }
 
 export function computeAiScore(l: Pick<Lead, "leadType" | "budget" | "budgetCurrency" | "description" | "complexity" | "priority">): number {
@@ -240,6 +380,10 @@ export const useSalesStore = create<SalesState>()(
       leads: seedLeads,
       activities: seedActivities,
       tasks: seedTasks,
+      deals: seedDeals,
+      contacts: seedContacts,
+      companies: seedCompanies,
+      proposals: seedProposals,
       addSource: (s) => {
         const id = `s${Date.now()}`;
         set((st) => ({ sources: [{ ...s, id, createdAt: new Date().toISOString().slice(0, 10) }, ...st.sources] }));
@@ -281,6 +425,37 @@ export const useSalesStore = create<SalesState>()(
         return id;
       },
       setTaskStatus: (id, status) => set((st) => ({ tasks: st.tasks.map(t => t.id === id ? { ...t, status } : t) })),
+      addDeal: (d) => {
+        const id = `d${Date.now()}`;
+        set((st) => ({ deals: [{ ...d, id, createdAt: new Date().toISOString().slice(0, 10) }, ...st.deals] }));
+        return id;
+      },
+      updateDeal: (id, patch) => set((st) => ({ deals: st.deals.map(d => d.id === id ? { ...d, ...patch } : d) })),
+      setDealStage: (id, stage) => {
+        const probMap: Record<DealStage, number> = { Discovery: 15, Qualification: 30, Proposal: 50, Negotiation: 70, Contract: 90, Won: 100, Lost: 0 };
+        set((st) => ({
+          deals: st.deals.map(d => d.id === id ? { ...d, stage, probability: probMap[stage] } : d),
+          activities: [
+            { id: `a${Date.now()}`, dealId: id, type: "Status Change", subject: `Deal moved to ${stage}`, date: new Date().toISOString().slice(0, 10), byId: "p1" },
+            ...st.activities,
+          ],
+        }));
+      },
+      addContact: (c) => {
+        const id = `ct${Date.now()}`;
+        set((st) => ({ contacts: [{ ...c, id, createdAt: new Date().toISOString().slice(0, 10) }, ...st.contacts] }));
+        return id;
+      },
+      addCompany: (c) => {
+        const id = `co${Date.now()}`;
+        set((st) => ({ companies: [{ ...c, id, createdAt: new Date().toISOString().slice(0, 10) }, ...st.companies] }));
+        return id;
+      },
+      addProposal: (p) => {
+        const id = `pr${Date.now()}`;
+        set((st) => ({ proposals: [{ ...p, id, createdAt: new Date().toISOString().slice(0, 10) }, ...st.proposals] }));
+        return id;
+      },
     }),
     { name: "crm-sales-state" }
   )
