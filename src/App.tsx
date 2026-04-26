@@ -49,6 +49,13 @@ import Forecasts from "@/pages/sales/Forecasts";
 import SalesReports from "@/pages/sales/Reports";
 import SalesSettings from "@/pages/sales/Settings";
 
+// Daily Reports
+import DailyReportsDashboard from "@/pages/dailyreports/DailyReportsDashboard";
+import SubmitReport from "@/pages/dailyreports/SubmitReport";
+import MyReports from "@/pages/dailyreports/MyReports";
+import TeamReports from "@/pages/dailyreports/TeamReports";
+import DailyReportsAnalytics from "@/pages/dailyreports/Analytics";
+
 const queryClient = new QueryClient();
 
 // Custom routes that override the auto-PlaceholderPage
@@ -81,6 +88,11 @@ const CUSTOM_ROUTES: Record<string, React.ComponentType> = {
   "/sales/forecasts": Forecasts,
   "/sales/reports": SalesReports,
   "/sales/settings": SalesSettings,
+  "/daily-reports": DailyReportsDashboard,
+  "/daily-reports/submit": SubmitReport,
+  "/daily-reports/my": MyReports,
+  "/daily-reports/team": TeamReports,
+  "/daily-reports/analytics": DailyReportsAnalytics,
 };
 
 const App = () => (
