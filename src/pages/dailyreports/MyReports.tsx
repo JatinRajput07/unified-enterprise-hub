@@ -30,7 +30,12 @@ export default function MyReports() {
 
       <div className="p-3">
         {mine.length === 0 ? (
-          <EmptyState icon={FileText} title="No reports yet" description="Submit your first daily report to get started." actionLabel="Submit Report" onAction={() => navigate("/daily-reports/submit")} />
+          <EmptyState
+            icon={<FileText className="w-6 h-6" />}
+            title="No reports yet"
+            subtitle="Submit your first daily report to get started."
+            cta={<Button size="sm" className="h-7 text-xs" style={{ background: ACCENT }} onClick={() => navigate("/daily-reports/submit")}>Submit Report</Button>}
+          />
         ) : (
           <div className="space-y-2">
             {mine.map(r => (
