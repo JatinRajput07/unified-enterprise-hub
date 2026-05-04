@@ -63,6 +63,11 @@
     --mod-portfolio: 330 81% 60%;       /* #EC4899 pink */
     --mod-staffing: 160 84% 39%;        /* #10B981 emerald */
     --mod-canteen: 24 95% 53%;          /* #F97316 orange */
+    --mod-dailyreports: 280 70% 55%;    /* #A855F7 purple */
+
+    /* Super Admin accent (Indigo) */
+    --sa-accent: 239 84% 67%;           /* #6366F1 */
+    --sa-accent-soft: 239 84% 95%;
 
     --sidebar-background: 210 20% 98%;
     --sidebar-foreground: 222 47% 11%;

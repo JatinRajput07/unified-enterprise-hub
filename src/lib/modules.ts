@@ -1,12 +1,13 @@
 import {
   Workflow, Wallet, ShieldCheck, FolderKanban, Database,
   TrendingUp, FileText, Briefcase, Users2, UtensilsCrossed,
+  ClipboardList,
   type LucideIcon,
 } from "lucide-react";
 
 export type ModuleKey =
   | "wayofwork" | "finance" | "sysadmin" | "pms" | "mastersheet"
-  | "sales" | "frd" | "portfolio" | "staffing" | "canteen";
+  | "sales" | "frd" | "portfolio" | "staffing" | "canteen" | "dailyreports";
 
 export interface ModuleDef {
   key: ModuleKey;
@@ -147,6 +148,17 @@ export const MODULES: ModuleDef[] = [
       { label: "Feedback", path: "/canteen/feedback" },
       { label: "Reports", path: "/canteen/reports" },
       { label: "Automations", path: "/canteen/automations" },
+    ],
+  },
+  {
+    key: "dailyreports", name: "Daily Reports", short: "DR", icon: ClipboardList,
+    path: "/daily-reports", colorVar: "--mod-dailyreports",
+    submenu: [
+      { label: "Dashboard", path: "/daily-reports" },
+      { label: "Submit Report", path: "/daily-reports/submit" },
+      { label: "My Reports", path: "/daily-reports/my" },
+      { label: "Team Reports", path: "/daily-reports/team" },
+      { label: "Analytics", path: "/daily-reports/analytics" },
     ],
   },
 ];

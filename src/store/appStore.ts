@@ -120,10 +120,10 @@ export const useCurrentUser = () => {
 // Module visibility per role (simplified mock RBAC)
 export const moduleAccess: Record<GlobalRole, ModuleKey[] | "all"> = {
   SUPER_ADMIN: "all",
-  DEPT_HEAD: ["sales", "sysadmin", "pms", "mastersheet", "frd", "portfolio", "wayofwork"],
-  MANAGER: ["sales", "pms", "mastersheet", "wayofwork", "frd"],
-  EMPLOYEE: ["sales", "pms", "wayofwork", "canteen"],
-  VIEWER: ["finance", "portfolio"],
+  DEPT_HEAD: ["sales", "sysadmin", "pms", "mastersheet", "frd", "portfolio", "wayofwork", "dailyreports"],
+  MANAGER: ["sales", "pms", "mastersheet", "wayofwork", "frd", "dailyreports"],
+  EMPLOYEE: ["sales", "pms", "wayofwork", "canteen", "dailyreports"],
+  VIEWER: ["finance", "portfolio", "dailyreports"],
 };
 
 export function canAccessModule(role: GlobalRole, key: ModuleKey): boolean {

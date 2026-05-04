@@ -38,6 +38,43 @@ import LeadDetail from "@/pages/sales/LeadDetail";
 import Sources from "@/pages/sales/Sources";
 import SourceNew from "@/pages/sales/SourceNew";
 import SourceDetail from "@/pages/sales/SourceDetail";
+import Pipeline from "@/pages/sales/Pipeline";
+import Deals from "@/pages/sales/Deals";
+import DealNew from "@/pages/sales/DealNew";
+import DealDetail from "@/pages/sales/DealDetail";
+import Contacts from "@/pages/sales/Contacts";
+import Companies from "@/pages/sales/Companies";
+import Activities from "@/pages/sales/Activities";
+import Forecasts from "@/pages/sales/Forecasts";
+import SalesReports from "@/pages/sales/Reports";
+import SalesSettings from "@/pages/sales/Settings";
+
+// Daily Reports
+import DailyReportsDashboard from "@/pages/dailyreports/DailyReportsDashboard";
+import SubmitReport from "@/pages/dailyreports/SubmitReport";
+import MyReports from "@/pages/dailyreports/MyReports";
+import TeamReports from "@/pages/dailyreports/TeamReports";
+import DailyReportsAnalytics from "@/pages/dailyreports/Analytics";
+
+// Super Admin (separate app under /super-admin/*)
+import { SuperAdminShell } from "@/superadmin/SuperAdminShell";
+import SALogin from "@/superadmin/pages/Login";
+import SADashboard from "@/superadmin/pages/Dashboard";
+import SATenants from "@/superadmin/pages/Tenants";
+import SATenantNew from "@/superadmin/pages/TenantNew";
+import SATenantDetail from "@/superadmin/pages/TenantDetail";
+import SAPlans from "@/superadmin/pages/Plans";
+import SABilling from "@/superadmin/pages/Billing";
+import SADemoRequests from "@/superadmin/pages/DemoRequests";
+import SADemoDetail from "@/superadmin/pages/DemoDetail";
+import SACustomDeals from "@/superadmin/pages/CustomDeals";
+import SACustomDealNew from "@/superadmin/pages/CustomDealNew";
+import SAModules from "@/superadmin/pages/Modules";
+import SAAnnouncements from "@/superadmin/pages/Announcements";
+import SASupport from "@/superadmin/pages/Support";
+import SASupportDetail from "@/superadmin/pages/SupportDetail";
+import SAAnalytics from "@/superadmin/pages/Analytics";
+import SASettings from "@/superadmin/pages/Settings";
 
 const queryClient = new QueryClient();
 
@@ -63,6 +100,19 @@ const CUSTOM_ROUTES: Record<string, React.ComponentType> = {
   "/finance/automations": FinanceAutomations,
   "/sales/leads": Leads,
   "/sales/sources": Sources,
+  "/sales/pipeline": Pipeline,
+  "/sales/deals": Deals,
+  "/sales/contacts": Contacts,
+  "/sales/companies": Companies,
+  "/sales/activities": Activities,
+  "/sales/forecasts": Forecasts,
+  "/sales/reports": SalesReports,
+  "/sales/settings": SalesSettings,
+  "/daily-reports": DailyReportsDashboard,
+  "/daily-reports/submit": SubmitReport,
+  "/daily-reports/my": MyReports,
+  "/daily-reports/team": TeamReports,
+  "/daily-reports/analytics": DailyReportsAnalytics,
 };
 
 const App = () => (
@@ -73,6 +123,28 @@ const App = () => (
         <Sonner />
         <BrowserRouter>
           <Routes>
+            {/* Super Admin — completely separate app */}
+            <Route path="/super-admin/login" element={<SALogin />} />
+            <Route path="/super-admin" element={<SuperAdminShell />}>
+              <Route index element={<Navigate to="/super-admin/dashboard" replace />} />
+              <Route path="dashboard" element={<SADashboard />} />
+              <Route path="tenants" element={<SATenants />} />
+              <Route path="tenants/new" element={<SATenantNew />} />
+              <Route path="tenants/:id" element={<SATenantDetail />} />
+              <Route path="plans" element={<SAPlans />} />
+              <Route path="billing" element={<SABilling />} />
+              <Route path="demo-requests" element={<SADemoRequests />} />
+              <Route path="demo-requests/:id" element={<SADemoDetail />} />
+              <Route path="custom-deals" element={<SACustomDeals />} />
+              <Route path="custom-deals/new" element={<SACustomDealNew />} />
+              <Route path="modules" element={<SAModules />} />
+              <Route path="announcements" element={<SAAnnouncements />} />
+              <Route path="support" element={<SASupport />} />
+              <Route path="support/:id" element={<SASupportDetail />} />
+              <Route path="analytics" element={<SAAnalytics />} />
+              <Route path="settings" element={<SASettings />} />
+            </Route>
+
             <Route element={<CrmShell />}>
               <Route path="/" element={<Navigate to="/sales" replace />} />
 
@@ -89,6 +161,8 @@ const App = () => (
               <Route path="/sales/leads/:id" element={<LeadDetail />} />
               <Route path="/sales/sources/new" element={<SourceNew />} />
               <Route path="/sales/sources/:id" element={<SourceDetail />} />
+              <Route path="/sales/deals/new" element={<DealNew />} />
+              <Route path="/sales/deals/:id" element={<DealDetail />} />
             </Route>
             <Route path="*" element={<NotFound />} />
           </Routes>
